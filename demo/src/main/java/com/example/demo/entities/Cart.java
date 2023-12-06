@@ -1,11 +1,10 @@
 package com.example.demo.entities;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -23,22 +22,34 @@ public class Cart {
         cancelled
     }
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id")
-    Long id;
-    @Column(name = "order_tracking_number")
-    String orderTrackingNumber;
-    @Column(name = "package_price")
-    BigDecimal package_price;
-    @Column(name = "party_size")
-    int party_size;
-    @Column(name = "status")
-    StatusType status;
-    @Column(name = "create_date")
-    Date create_date;
-    @Column(name = "last_update")
-    Date last_update;
-    @Column(name = "customer_id")
-    Customer customer;
+    private Long id;
 
+    @Column(name = "order_tracking_number")
+    private String orderTrackingNumber;
+
+    @Column(name = "package_price")
+    private BigDecimal package_price;
+
+    @Column(name = "party_size")
+    private int party_size;
+
+    @Column(name = "status")
+    private StatusType status;
+
+    @CreationTimestamp
+    @Column(name = "create_date")
+    private Date create_date;
+
+    @UpdateTimestamp
+    @Column(name = "last_update")
+    private Date last_update;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @OneToMany(cascade = CascadeType.ALL)
     Set<CartItem> cartItem;
 }
