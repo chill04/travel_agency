@@ -1,11 +1,10 @@
 package com.example.demo.entities;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -18,6 +17,7 @@ import java.util.Set;
 @Setter
 public class Vacation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vacation_id")
     Long id;
     @Column(name = "vacation_title")
@@ -28,10 +28,15 @@ public class Vacation {
     BigDecimal travel_price;
     @Column(name = "image_url")
     String image_URL;
-    @Column(name = "create_date")
-    Date create_date;
-    @Column(name = "last_update")
-    Date last_update;
 
+    @CreationTimestamp
+    @Column(name = "create_date")
+    private Date create_date;
+
+    @UpdateTimestamp
+    @Column(name = "last_update")
+    private Date last_update;
+
+    @OneToMany(cascade = CascadeType.ALL)
     Set<Excursion> excursions;
 }

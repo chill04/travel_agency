@@ -1,11 +1,10 @@
 package com.example.demo.entities;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
 import java.util.Set;
@@ -17,8 +16,10 @@ import java.util.Set;
 @Setter
 public class CartItem {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
     Long id;
+
     @Column(name = "vacation_id")
     Vacation vacation;
 
@@ -27,10 +28,18 @@ public class CartItem {
 
     @Column(name = "cart_id")
     Cart cart;
+
+    @CreationTimestamp
     @Column(name = "create_date")
-    Date create_date;
+    private Date create_date;
+
+    @UpdateTimestamp
     @Column(name = "last_update")
-    Date last_update;
+    private Date last_update;
+
+    @ManyToOne
     Division division;
+
+    @OneToMany(cascade = CascadeType.ALL)
     Set<Cart> carts;
 }
