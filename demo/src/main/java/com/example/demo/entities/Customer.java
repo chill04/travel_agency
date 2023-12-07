@@ -1,6 +1,6 @@
 package com.example.demo.entities;
+
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,34 +18,34 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    Long id;
+    private Long id;
 
     @Column(name = "customer_first_name")
-     String firstName;
+    private String firstName;
 
     @Column(name = "customer_last_name")
-    String lastName;
+    private String lastName;
 
     @Column(name = "address")
-    String address;
+    private String address;
 
     @Column(name = "postal_code")
-    String postal_code;
+    private String postal_code;
 
     @Column(name = "phone")
-    String phone;
+    private String phone;
+
     @CreationTimestamp
     @Column(name = "create_date")
     private Date create_date;
-
     @UpdateTimestamp
     @Column(name = "last_update")
     private Date last_update;
-    @Column(name = "division_id")
 
-    @ManyToOne
-    Division division;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "division_id", nullable = false)
+    private Division division;
 
     @OneToMany(cascade = CascadeType.ALL)
-    Set<Cart> carts;
+    private Set<Cart> carts;
 }

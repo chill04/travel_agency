@@ -1,13 +1,14 @@
 package com.example.demo.entities;
+
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.Set;
 
 
@@ -16,11 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Cart {
-    enum StatusType {
-        pending,
-        ordered,
-        cancelled
-    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id")
@@ -35,7 +32,8 @@ public class Cart {
     @Column(name = "party_size")
     private int party_size;
 
-    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private StatusType status;
 
     @CreationTimestamp

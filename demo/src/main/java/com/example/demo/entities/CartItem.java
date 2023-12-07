@@ -1,6 +1,6 @@
 package com.example.demo.entities;
+
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,16 +18,7 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
-    Long id;
-
-    @Column(name = "vacation_id")
-    Vacation vacation;
-
-//    @Column
-    Set<Excursion> excursions;
-
-    @Column(name = "cart_id")
-    Cart cart;
+    private Long id;
 
     @CreationTimestamp
     @Column(name = "create_date")
@@ -37,9 +28,15 @@ public class CartItem {
     @Column(name = "last_update")
     private Date last_update;
 
-    @ManyToOne
-    Division division;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "vacation_id", nullable = false)
+    private Vacation vacation;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    Set<Cart> carts;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cartItems")
+    private Set<Excursion> excursions;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
+
 }
