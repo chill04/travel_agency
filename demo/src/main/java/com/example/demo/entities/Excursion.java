@@ -1,6 +1,6 @@
 package com.example.demo.entities;
+
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,26 +19,29 @@ public class Excursion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="excursion_id")
-    Long id;
+    private Long id;
+
     @Column(name="excursion_title")
-    String excursion_title;
+    private String excursion_title;
+
     @Column(name="excursion_price")
-    BigDecimal excursion_price;
+    private BigDecimal excursion_price;
+
     @Column(name="image_url")
-    String image_URL;
+    private String image_URL;
+
     @CreationTimestamp
     @Column(name = "create_date")
     private Date create_date;
-
     @UpdateTimestamp
     @Column(name = "last_update")
     private Date last_update;
 
-    @ManyToOne
-    @Column(name="vacation_id")
-    Vacation vacation;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "vacation_id", nullable = false)
+    private Vacation vacation;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    Set<CartItem> cartItems;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<CartItem> cartItems;
 
 }

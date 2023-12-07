@@ -1,6 +1,6 @@
 package com.example.demo.entities;
+
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,10 +18,10 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "country_id")
-    Long id;
+    private Long id;
 
     @Column(name = "country")
-    String country_name;
+    private String country_name;
 
     @CreationTimestamp
     @Column(name = "create_date")
@@ -32,5 +32,5 @@ public class Country {
     private Date last_update;
 
     @OneToMany(cascade = CascadeType.ALL)
-    Set<Division> divisions;
+    private Set<Division> divisions;
 }
