@@ -1,23 +1,27 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
-import java.util.Set;
+import java.util.Date;
 
 
 @Entity
 @Table(name="divisions")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Division {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "division_id")
+    @Column(name = "division_id", nullable = false)
     private Long id;
 
     @Column(name = "division")
@@ -30,13 +34,9 @@ public class Division {
     @Column(name = "last_update")
     private Date last_update;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "country_id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private Country country;
 
-    @Column(name = "country_id")
-    private Long country_ID;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "division")
-    private Set<Customer> customers;
 }
