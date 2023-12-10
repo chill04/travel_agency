@@ -49,13 +49,24 @@ public class Customer {
     private Date last_update;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<Cart> carts = new HashSet<>();
+    private Set<Cart> carts;
 
     @ManyToOne
     @JoinColumn(name = "division_id")
 //    @JsonIgnore
     private Division division;
 
+    public void add(Cart cart) {
 
+        if (cart != null) {
+
+            if (carts == null) {
+                carts = new HashSet<>();
+            }
+
+            carts.add(cart);
+            cart.setCustomer(this);
+        }
+    }
 
 }
