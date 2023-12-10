@@ -1,18 +1,25 @@
 package com.example.demo.services;
 
+import com.example.demo.dao.CartRepository;
 import com.example.demo.dao.CustomerRepository;
 import com.example.demo.entities.Cart;
 import com.example.demo.entities.CartItem;
 import com.example.demo.entities.Customer;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+
 import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
     private CustomerRepository customerRepository;
+    private CartRepository cartRepository;
 
+//    public CheckoutServiceImpl(CustomerRepository customerRepository) {
+//        this.customerRepository = customerRepository;
+//    }
     public CheckoutServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
@@ -35,6 +42,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         customer.add(order);
 
         customerRepository.save(customer);
+        this.cartRepository.save(order);
 
         return new PurchaseResponse(orderTrackingNumber);
     }
