@@ -48,8 +48,8 @@ public class Customer {
     @Column(name = "last_update")
     private Date last_update;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<Cart> carts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Set<Cart> carts = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "division_id")

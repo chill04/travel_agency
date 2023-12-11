@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Entity
@@ -49,7 +50,6 @@ public class Cart {
     @CreationTimestamp
     @Column(name = "create_date")
     private Date create_date;
-
     @UpdateTimestamp
     @Column(name = "last_update")
     private Date last_update;
@@ -58,8 +58,8 @@ public class Cart {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cart")
-    Set<CartItem> cartItem;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    private Set<CartItem> cartItem = new HashSet<>();
 
     public void add(CartItem item) {
         if (item != null) {
