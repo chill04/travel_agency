@@ -16,7 +16,6 @@ import java.util.Set;
 @Table(name="cart_items")
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Getter
 @Setter
 public class CartItem {
@@ -36,8 +35,8 @@ public class CartItem {
     @JoinColumn(name="vacation_id", nullable = false)
     private Vacation vacation;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     @ManyToMany(mappedBy = "cartItems")
